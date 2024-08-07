@@ -110,10 +110,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Get album_id from the URL
-            const url = 'https://axolic.github.io/album/4rJDCELWL0fjdmN9Gn4f4g/';
-            const match = url.match(/\/album\/([a-zA-Z0-9]+)/);
+            const album =url.match(/\/album\/([a-zA-Z0-9]+)/) ;
 
-            if (match) { const result = match[1]; }
+            if album { const album = match[1]; }
 
             // Fetch album data
             fetch('/data/albumdb.json')
