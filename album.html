@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Rating Site</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #191919;
+            color: #fff;
+            font-family: "Josefin Sans", sans-serif;
+        }
+
+        .card {
+            background-color: #191919;
+            color: #fff;
+        }
+
+        .album_cover img {
+            width: 100%;
+            height: auto;
+        }
+
+        .album_container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .album_info {
+            text-align: left;
+            margin-right: 20px;
+            padding-top: 55px;
+        }
+
+        .tracklist {
+            background-color: #191919;
+            color: #e4e4e4;
+            border-color: #777777;
+        }
+
+        .editbtn {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+            margin-left: 10px;
+            background-color: #191919;
+        }
+
+        .homebtn {
+            margin: 10px;
+            color: #e4e4e4;
+        }
+
+        @media (min-width: 768px) {
+            .album_container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .album_cover {
+                width: 150px;
+                height: 150px;
+                margin-right: 10px;
+            }
+
+            .album_info {
+                text-align: left;
+                margin-right: 20px;
+                padding-top: 55px;
+            }
+
+            .tracklist {
+                width: 700px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="btn btn-primary homebtn btn-dark" href="/" role="button">Home</a>
+
+    <div class="container album_container" id="album-container">
+        <!-- Album details will be injected here by JavaScript -->
+    </div>
+
+    <div class="container">
+        <div class="btn-container">
+            <a id="edit-link" style="text-decoration: none;">
+                <button type="button" class="btn btn-primary editbtn btn-dark">Edit Scores</button>
+            </a>
+        </div>
+        <ul class="list-group list-group-flush list-group-numbered tracklist" id="song-list">
+            <!-- Songs will be injected here by JavaScript -->
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get album_id from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const albumId = urlParams.get('album_id');
+            
+            if (!albumId) {
+                console.error('No album_id found in the URL');
+                return;
+            }
+
+            // Fetch album data
+            fetch('data/albumdb.json')
+                .then(response => response.json())
+                .then(albums => {
+                    const album = albums.find(album => album.album_id === albumId);
+                    if (!album) {
+                        console.error('Album not found');
+                        return;
+                    }
+
+                    const albumContainer = document.getElementById('album-container');
+
+                    const albumDiv = document.createElement('div');
+                    albumDiv.className = 'album_cover';
+
+                    const albumLink = document.createElement('a');
+                    albumLink.href = album.link;
+
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = 'card h-100 rounded';
+                    cardDiv.style.borderColor = 'rgba(0, 0, 0, 0.74)';
+
+                    const albumImage = document.createElement('img');
+                    albumImage.src = album.cover;
+                    albumImage.className = 'card-img-top';
+                    albumImage.alt = 'Album Cover';
+
+                    cardDiv.appendChild(albumImage);
+                    albumLink.appendChild(cardDiv);
+                    albumDiv.appendChild(albumLink);
+
+                    const albumInfoDiv = document.createElement('div');
+                    albumInfoDiv.className = 'album_info';
+
+                    const albumName = document.createElement('h5');
+                    albumName.textContent = album.name;
+
+                    const albumArtist = document.createElement('h5');
+                    albumArtist.textContent = album.artist;
+
+                    const albumDate = document.createElement('h5');
+                    albumDate.id = 'reversedDate';
+
+                    const albumRating = document.createElement('h2');
+                    albumRating.style.paddingTop = '10px';
+                    albumRating.textContent = `${album.rating}/100`;
+
+                    albumInfoDiv.appendChild(albumName);
+                    albumInfoDiv.appendChild(albumArtist);
+                    albumInfoDiv.appendChild(albumDate);
+                    albumInfoDiv.appendChild(albumRating);
+
+                    albumContainer.appendChild(albumDiv);
+                    albumContainer.appendChild(albumInfoDiv);
+
+                    // Format the release date
+                    const dateStr = album.release_date;
+                    const parts = dateStr.split('-');
+                    const monthNames = [
+                        'January', 'February', 'March', 'April', 'May', 'June',
+                        'July', 'August', 'September', 'October', 'November', 'December'
+                    ];
+                    const monthIndex = parseInt(parts[1], 10) - 1;
+                    const monthName = monthNames[monthIndex];
+                    const reversedDate = `${parts[2]}. ${monthName} ${parts[0]}`;
+
+                    document.getElementById('reversedDate').textContent = reversedDate;
+
+                    // Set edit link
+                    document.getElementById('edit-link').href = `/albums/${album.album_id}/edit`;
+                })
+                .catch(error => console.error('Error fetching album data:', error));
+
+            // Fetch song data
+            fetch('data/songdb.json')
+                .then(response => response.json())
+                .then(songs => {
+                    const songList = document.getElementById('song-list');
+
+                    songs.filter(song => song.album_id === albumId).forEach(song => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'list-group-item tracklist d-flex justify-content-between';
+
+                        const songName = document.createElement('span');
+                        songName.textContent = song.name;
+
+                        const songRating = document.createElement('span');
+                        songRating.textContent = `${song.rating}/100`;
+
+                        listItem.appendChild(songName);
+                        listItem.appendChild(songRating);
+                        songList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching song data:', error));
+        });
+    </script>
+</body>
+
+</html>

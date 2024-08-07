@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Rating Site</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #191919;
+            color: #fff;
+            font-family: "Josefin Sans", sans-serif;
+        }
+
+        .card {
+            background-color: #191919;
+            color: #fff;
+        }
+
+        .card-img-top {
+            width: 100%;
+            padding-bottom: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .dropdown {
+            position: fixed;
+            left: 20px;
+            top: 5%;
+            transform: translateY(-50%);
+            background-color: #474747;
+            color: rgb(163, 163, 163);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown:hover {
+            background-color: #818181;
+        }
+
+        .artistbtn {
+            justify-content: start;
+            margin-top: 10px;
+            margin-left: 10px;
+            color: #e4e4e4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>This is the static site, meaning you can't add new albums, sorry :(
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <a class="btn btn-primary artistbtn btn-dark" href="/artist_list.html" role="button">Artists</a>
+
+    <div class="dropdown" style="margin-top: 20px;">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="bi bi-filter-left"> Sort By:</i>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#" onclick="sortAlbums('artist')">Artist</a></li>
+            <li><a class="dropdown-item" href="#" onclick="sortAlbums('rating_highest')">Rating: Highest</a></li>
+            <li><a class="dropdown-item" href="#" onclick="sortAlbums('rating_lowest')">Rating: Lowest</a></li>
+            <li><a class="dropdown-item" href="#" onclick="sortAlbums('release_newest')">Release Date: Newest</a></li>
+            <li><a class="dropdown-item" href="#" onclick="sortAlbums('release_oldest')">Release Date: Oldest</a></li>
+        </ul>
+    </div>
+
+    <div class="container" style="padding: 20px; margin-top: 10px;">
+        <div class="row row-cols-2 row-cols-md-4 g-4" id="album-list">
+            <!-- Albums will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        let albumsData = [];
+        let songsData = {};
+
+        // Fetch the album data
+        fetch('data/albumdb.json')
+            .then(response => response.json())
+            .then(data => {
+                albumsData = data;
+                return fetch('data/songdb.json');
+            })
+            .then(response => response.json())
+            .then(data => {
+                songsData = data.reduce((acc, song) => {
+                    if (!acc[song.album_id]) {
+                        acc[song.album_id] = [];
+                    }
+                    acc[song.album_id].push(song);
+                    return acc;
+                }, {});
+                displayAlbums(albumsData);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        function displayAlbums(albums) {
+            const albumList = document.getElementById('album-list');
+            albumList.innerHTML = '';
+
+            albums.forEach(album => {
+                const albumCol = document.createElement('div');
+                albumCol.className = 'col';
+
+                const albumLink = document.createElement('a');
+                albumLink.href = `/album.html?album_id=${album.album_id}`;
+                albumLink.style.textDecoration = 'none';
+
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card h-100 rounded';
+                cardDiv.style.borderColor = 'rgba(0, 0, 0, 0.74)';
+
+                const cardImgDiv = document.createElement('div');
+                cardImgDiv.className = 'card-img-top';
+                cardImgDiv.style.backgroundImage = `url('${album.cover}')`;
+
+                const cardBodyDiv = document.createElement('div');
+                cardBodyDiv.className = 'card-body';
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.className = 'card-title';
+                cardTitle.textContent = album.name;
+
+                const cardText = document.createElement('p');
+                cardText.className = 'card-text';
+                cardText.textContent = `${album.rating}/100`;
+
+                cardBodyDiv.appendChild(cardTitle);
+                cardBodyDiv.appendChild(cardText);
+
+                cardDiv.appendChild(cardImgDiv);
+                cardDiv.appendChild(cardBodyDiv);
+
+                albumLink.appendChild(cardDiv);
+                albumCol.appendChild(albumLink);
+
+                albumList.appendChild(albumCol);
+            });
+
+            // Add the "New Album" button at the end
+            const newAlbumCol = document.createElement('button');
+            newAlbumCol.className = 'btn btn-card col';
+            newAlbumCol.dataset.bsToggle = 'modal';
+            newAlbumCol.dataset.bsTarget = '#newAlbumModal';
+            newAlbumCol.style.border = 'none';
+
+            const newAlbumCard = document.createElement('div');
+            newAlbumCard.className = 'card h-100 rounded';
+            newAlbumCard.style.borderColor = 'rgba(216, 216, 216, 0.74)';
+
+            const newAlbumCardImg = document.createElement('div');
+            newAlbumCardImg.className = 'card-img-top';
+            newAlbumCardImg.style.display = 'flex';
+            newAlbumCardImg.style.justifyContent = 'center';
+            newAlbumCardImg.style.alignItems = 'center';
+
+            const newAlbumIcon = document.createElement('i');
+            newAlbumIcon.className = 'bi bi-plus-square-dotted';
+            newAlbumIcon.style.fontSize = '96px';
+
+            newAlbumCardImg.appendChild(newAlbumIcon);
+
+            const newAlbumCardBody = document.createElement('div');
+            newAlbumCardBody.className = 'card-body';
+
+            const newAlbumCardTitle = document.createElement('h5');
+            newAlbumCardTitle.className = 'card-title';
+            newAlbumCardTitle.textContent = 'New Album';
+
+            newAlbumCardBody.appendChild(newAlbumCardTitle);
+
+            newAlbumCard.appendChild(newAlbumCardImg);
+            newAlbumCard.appendChild(newAlbumCardBody);
+
+            newAlbumCol.appendChild(newAlbumCard);
+            albumList.appendChild(newAlbumCol);
+        }
+
+        function sortAlbums(criteria) {
+            let sortedAlbums = [...albumsData];
+            if (criteria === 'artist') {
+                sortedAlbums.sort((a, b) => a.artist.localeCompare(b.artist));
+            } else if (criteria === 'rating_highest') {
+                sortedAlbums.sort((a, b) => b.rating - a.rating);
+            } else if (criteria === 'rating_lowest') {
+                sortedAlbums.sort((a, b) => a.rating - b.rating);
+            } else if (criteria === 'release_newest') {
+                sortedAlbums.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+            } else if (criteria === 'release_oldest') {
+                sortedAlbums.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
+            }
+            displayAlbums(sortedAlbums);
+        }
+    </script>
+</body>
+
+</html>
