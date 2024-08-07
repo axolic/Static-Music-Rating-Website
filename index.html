@@ -118,7 +118,7 @@
                 albumCol.className = 'col';
 
                 const albumLink = document.createElement('a');
-                albumLink.href = `/album.html?album_id=${album.album_id}`;
+                albumLink.href = `/album/${album.album_id}`;
                 albumLink.style.textDecoration = 'none';
 
                 const cardDiv = document.createElement('div');
@@ -151,44 +151,6 @@
 
                 albumList.appendChild(albumCol);
             });
-
-            // Add the "New Album" button at the end
-            const newAlbumCol = document.createElement('button');
-            newAlbumCol.className = 'btn btn-card col';
-            newAlbumCol.dataset.bsToggle = 'modal';
-            newAlbumCol.dataset.bsTarget = '#newAlbumModal';
-            newAlbumCol.style.border = 'none';
-
-            const newAlbumCard = document.createElement('div');
-            newAlbumCard.className = 'card h-100 rounded';
-            newAlbumCard.style.borderColor = 'rgba(216, 216, 216, 0.74)';
-
-            const newAlbumCardImg = document.createElement('div');
-            newAlbumCardImg.className = 'card-img-top';
-            newAlbumCardImg.style.display = 'flex';
-            newAlbumCardImg.style.justifyContent = 'center';
-            newAlbumCardImg.style.alignItems = 'center';
-
-            const newAlbumIcon = document.createElement('i');
-            newAlbumIcon.className = 'bi bi-plus-square-dotted';
-            newAlbumIcon.style.fontSize = '96px';
-
-            newAlbumCardImg.appendChild(newAlbumIcon);
-
-            const newAlbumCardBody = document.createElement('div');
-            newAlbumCardBody.className = 'card-body';
-
-            const newAlbumCardTitle = document.createElement('h5');
-            newAlbumCardTitle.className = 'card-title';
-            newAlbumCardTitle.textContent = 'New Album';
-
-            newAlbumCardBody.appendChild(newAlbumCardTitle);
-
-            newAlbumCard.appendChild(newAlbumCardImg);
-            newAlbumCard.appendChild(newAlbumCardBody);
-
-            newAlbumCol.appendChild(newAlbumCard);
-            albumList.appendChild(newAlbumCol);
         }
 
         function sortAlbums(criteria) {
