@@ -110,8 +110,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Get album_id from the URL
-            const pathParts = window.location.pathname.split('/');
-            const albumId = pathParts[pathParts.length - 1];
+            const albumIdMatch = window.location.pathname.match(/\/album\/([^\/]+)/);
+            const albumId = albumIdMatch ? albumIdMatch[1] : null;
 
             if (!albumId) {
                 console.error('No album_id found in the URL');
