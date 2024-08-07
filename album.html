@@ -112,7 +112,7 @@
             // Get album_id from the URL
             const album =url.match(/\/album\/([a-zA-Z0-9]+)/) ;
 
-            if album { const album = match[1]; }
+            if album { const albumId = match[1]; }
 
             // Fetch album data
             fetch('/data/albumdb.json')
