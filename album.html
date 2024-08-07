@@ -112,14 +112,14 @@
             // Get album_id from the URL
             const urlParams = new URLSearchParams(window.location.search);
             const albumId = urlParams.get('album_id');
-            
+
             if (!albumId) {
                 console.error('No album_id found in the URL');
                 return;
             }
 
             // Fetch album data
-            fetch('data/albumdb.json')
+            fetch('/data/albumdb.json')
                 .then(response => response.json())
                 .then(albums => {
                     const album = albums.find(album => album.album_id === albumId);
@@ -192,7 +192,7 @@
                 .catch(error => console.error('Error fetching album data:', error));
 
             // Fetch song data
-            fetch('data/songdb.json')
+            fetch('/data/songdb.json')
                 .then(response => response.json())
                 .then(songs => {
                     const songList = document.getElementById('song-list');
