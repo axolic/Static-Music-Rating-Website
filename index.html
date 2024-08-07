@@ -34,21 +34,6 @@
             background-position: center;
         }
 
-        .dropdown {
-            position: fixed;
-            left: 20px;
-            top: 5%;
-            transform: translateY(-50%);
-            background-color: #474747;
-            color: rgb(163, 163, 163);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .dropdown:hover {
-            background-color: #818181;
-        }
 
         .artistbtn {
             justify-content: start;
@@ -64,20 +49,7 @@
         <strong>This is the static site, meaning you can't add new albums, sorry :(
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    
-    <div class="dropdown" style="margin-top: 20px;">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <i class="bi bi-filter-left"> Sort By:</i>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" onclick="sortAlbums('artist')">Artist</a></li>
-            <li><a class="dropdown-item" href="#" onclick="sortAlbums('rating_highest')">Rating: Highest</a></li>
-            <li><a class="dropdown-item" href="#" onclick="sortAlbums('rating_lowest')">Rating: Lowest</a></li>
-            <li><a class="dropdown-item" href="#" onclick="sortAlbums('release_newest')">Release Date: Newest</a></li>
-            <li><a class="dropdown-item" href="#" onclick="sortAlbums('release_oldest')">Release Date: Oldest</a></li>
-        </ul>
-    </div>
+
 
     <div class="container" style="padding: 20px; margin-top: 10px;">
         <div class="row row-cols-2 row-cols-md-4 g-4" id="album-list">
