@@ -112,9 +112,6 @@
                         const reversedDate = `${parts[2]}. ${monthName} ${parts[0]}`;
 
                         document.getElementById('reversedDate').textContent = reversedDate;
-
-                        // Set edit link
-                        document.getElementById('edit-link').href = `/albums/${album.album_id}/edit`;
                     })
                     .catch(error => console.error('Error fetching album data:', error));
 
