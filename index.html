@@ -90,7 +90,7 @@ function displayAlbums(albums) {
         albumLink.href = `#`;
         albumLink.style.textDecoration = 'none';
         albumLink.onclick = function () {
-            window.location.href = `/album.html?albumId=${album.album_id}`;
+            window.location.href = `album.html?albumId=${album.album_id}`;
             return false; // Prevent default anchor behavior
         };
 
