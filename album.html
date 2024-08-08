@@ -55,6 +55,30 @@
     const urlParams = new URLSearchParams(window.location.search);
     const albumId = urlParams.get('albumId');
 
+fetch('/data/albumdb.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(albums => {
+        // Process album data
+    })
+    .catch(error => showError(`Error fetching album data: ${error.message}`));
+
+fetch('/data/songdb.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(songs => {
+        // Process song data
+    })
+    .catch(error => showError(`Error fetching song data: ${error.message}`));
+    
     if (albumId) {
         // Fetch album data
         fetch('/data/albumdb.json')
