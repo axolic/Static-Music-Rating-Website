@@ -60,8 +60,6 @@
 </head>
 
 <body>
-    <a class="btn btn-primary artistbtn btn-dark" href="/artist_list.html" role="button">Artists</a>
-
     <div class="dropdown" style="margin-top: 20px;">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
@@ -115,7 +113,7 @@
                 albumCol.className = 'col';
 
                 const albumLink = document.createElement('a');
-                albumLink.href = `/Static-Music-Rating-Website/album.html?album_id=${album.album_id}`;
+                albumLink.href = `/album.html?album_id=${album.album_id}`;
                 albumLink.style.textDecoration = 'none';
 
                 const cardDiv = document.createElement('div');
