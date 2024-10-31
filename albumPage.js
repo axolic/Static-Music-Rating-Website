@@ -1,7 +1,7 @@
 // Initialize Supabase client
-const SUPABASE_URL = 'your-supabase-url';
-const SUPABASE_KEY = 'your-supabase-key';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseUrl = 'https://hpvrsacknsmdgqlkivtb.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhwdnJzYWNrbnNtZGdxbGtpdnRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAzOTIzODcsImV4cCI6MjA0NTk2ODM4N30.PtRBYEw4sPJoqTE6eRwlP33j6va-RFxKfoSdaAJqfFM';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
