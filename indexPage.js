@@ -1,6 +1,6 @@
 // Initialize Supabase with your project's URL and anon key
-const supabaseUrl = 'https://your-project-id.supabase.co';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+const supabaseUrl = 'https://hpvrsacknsmdgqlkivtb.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhwdnJzYWNrbnNtZGdxbGtpdnRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAzOTIzODcsImV4cCI6MjA0NTk2ODM4N30.PtRBYEw4sPJoqTE6eRwlP33j6va-RFxKfoSdaAJqfFM';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 let albumsData = [];
