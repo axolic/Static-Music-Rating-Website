@@ -16,52 +16,61 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
     <style>
-        body {
-            background-color: #191919;
-            color: #fff;
-            font-family: "Josefin Sans", sans-serif;
-        }
+    body {
+        background-color: #191919;
+        color: #fff;
+        font-family: "Josefin Sans", sans-serif;
+    }
 
-        .card {
-            background-color: #191919;
-            color: #fff;
-        }
+    .card {
+        background-color: #191919;
+        color: #fff;
+    }
 
-        .card-img-top {
-            width: 100%;
-            padding-bottom: 100%;
-            background-size: cover;
-            background-position: center;
-        }
+    .card-img-top {
+        width: 100%;
+        padding-bottom: 100%;
+        background-size: cover;
+        background-position: center;
+    }
 
+    .dropdown {
+        position: fixed;
+        left: 20px;
+        top: 5%;
+        transform: translateY(-50%);
+        background-color: #474747;
+        color: rgb(163, 163, 163);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000; /* Ensure it's on top of other elements */
+        padding: 10px; /* Add padding for better spacing */
+    }
+
+    .dropdown:hover {
+        background-color: #818181;
+    }
+
+    .artistbtn {
+        justify-content: start;
+        margin-top: 10px;
+        margin-left: 10px;
+        color: #e4e4e4;
+    }
+
+    @media (max-width: 576px) { /* Media query for mobile devices */
         .dropdown {
-            position: fixed;
-            left: 20px;
-            top: 5%;
-            transform: translateY(-50%);
-            background-color: #474747;
-            color: rgb(163, 163, 163);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            left: 10px; /* Adjust the left position */
+            top: 10%; /* Adjust the top position */
+            padding: 8px; /* Smaller padding */
         }
+    }
+</style>
 
-        .dropdown:hover {
-            background-color: #818181;
-        }
-
-        .artistbtn {
-            justify-content: start;
-            margin-top: 10px;
-            margin-left: 10px;
-            color: #e4e4e4;
-        }
-    </style>
 </head>
 
 <body>
-    <a class="btn btn-primary artistbtn btn-dark" href="/artist_list.html" role="button">Artists</a>
-
     <div class="dropdown" style="margin-top: 20px;">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
@@ -78,11 +87,10 @@
 
     <div class="container" style="padding: 20px; margin-top: 10px;">
         <div class="row row-cols-2 row-cols-md-4 g-4" id="album-list">
-            <!-- Albums will be injected here by JavaScript -->
         </div>
     </div>
 
-    <script src="indexPage.js"></script>
+    <script src="indexPage.js"></script> 
 </body>
 
 </html>
